@@ -2,16 +2,25 @@
 @import url('https://fonts.googleapis.com/css2?family=Raleway&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Nerko+One&display=swap');
 
+body {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+.wrapper {
+    font-family: "Kiwi Maru", serif;
+    font-style: normal;
+    background-color: #f8f4f0;
+    background-size: cover;
+    padding:3% 0;
+}
 .main-content {
-  font-family: "Kiwi Maru", serif;
-  font-weight: 500;
-  font-style: normal;
+    font-weight: 500;
 }
  .grid-container {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
-  grid-auto-rows: minmax(100px, auto);
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    grid-auto-rows: minmax(100px, auto);
 }
 
 .site-title {
@@ -41,6 +50,8 @@
     font-style: italic;
     font-weight: bold;
     text-align: center;
+    margin: 0 !important;
+    padding: 0 !important;
 }
 .top-arrow-img {
     transform: scale(-1, 1);
@@ -52,4 +63,115 @@
     -moz-transform: scale(-1, 1);
     -ms-transform: scale(-1, 1);
     -o-transform: scale(-1, 1);
+}
+.form-content {
+    width: 50%;
+    text-align: center;
+    margin: 0 auto;
+}
+.keywords-input {
+    display: inline-block;
+    width: 75%;
+    padding: 0.5em;
+    border: 2px solid #999;
+    box-sizing: border-box;
+    border-radius: 1rem;
+    /*background: #f2f2f2;
+    */margin: 0.5em 0;
+    -webkit-border-radius: 1rem;
+    -moz-border-radius: 1rem;
+    -ms-border-radius: 1rem;
+    -o-border-radius: 1rem;
+}
+.keyword-btn {
+  display: inline-block;
+  background-color: #f5deb3;
+  color: #696969;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  /* line-height: 100px; */
+  text-align: center;
+  font-size: 1em;
+  text-decoration: none;
+  border: 2px solid #999;
+}
+.keyword-btn:hover {
+  color: #fff;
+  opacity: 0.6;
+}
+.results-container {
+    width: 100%;
+
+
+}
+.results-content {
+    text-align:center;
+    padding: 30px;
+    margin: 30px;
+    background-color: #fff;
+    border: solid 5px #f5f5f5;
+    border-radius: 30px;
+    -webkit-border-radius: 30px;
+    -moz-border-radius: 30px;
+    -ms-border-radius: 30px;
+    -o-border-radius: 30px;
+}
+.recipes-img,
+img {
+    max-width: 100%;
+    border-radius: 30px;
+    -webkit-border-radius: 30px;
+    -moz-border-radius: 30px;
+    -ms-border-radius: 30px;
+    -o-border-radius: 30px;
+}
+.recipes-detail,
+.recipes-summary-detail {
+    width: 70%;
+    margin: 0 auto;
+    text-align: left;
+}
+.random-btn {
+    font-family: "Kiwi Maru", serif;
+    font-style: normal;
+    position: relative;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin: 0 auto;
+    border-radius: 9999px;
+    /* max-width: 250px; */
+    padding: 10px 25px;
+    line-height: 1.8;
+    text-decoration: none;
+    transition: 0.3s ease-in-out;
+    background: linear-gradient(270deg, #f5f5f5 0%, #f5f5f5 25%, #f5f5f5 51%, #f5f5f5 100%);
+    background-position: 1% 50%;
+    background-size: 200% auto;
+    transition: all 0.3s ease-out;
+}
+.random-btn:hover {
+    font-family: "Kiwi Maru", serif;
+    font-style: normal;
+    color: #000;
+    background-position: 99% 50%;
+    transform: scale(1.05);
+    /*ボックスの影*/
+    box-shadow: 0 15px 15px rgba(87,111,230,0.4);
+}
+.random-btn:after {
+    font-family: "Kiwi Maru", serif;
+    font-style: normal;
+    content: '';
+    width: 5px;
+    height: 5px;
+    border-top: 3px solid #fff;
+    border-right: 3px solid #fff;
+    transform: rotate(45deg) translateY(-50%);
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    border-radius: 1px;
+    transition: 0.3s ease-in-out;
 }
