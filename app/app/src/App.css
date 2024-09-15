@@ -102,8 +102,6 @@ body {
 }
 .results-container {
     width: 100%;
-
-
 }
 .results-content {
     text-align:center;
@@ -116,6 +114,13 @@ body {
     -moz-border-radius: 30px;
     -ms-border-radius: 30px;
     -o-border-radius: 30px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    grid-auto-rows: minmax(100px, auto);
+}
+.results-all-contents {
+    max-width: 100%;
 }
 .recipes-img,
 img {
@@ -174,4 +179,8 @@ img {
     right: 20px;
     border-radius: 1px;
     transition: 0.3s ease-in-out;
+}
+.recipe-not-found {
+    width: 100%;
+    text-align: center;
 }

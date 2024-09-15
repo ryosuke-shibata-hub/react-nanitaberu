@@ -9,7 +9,7 @@ interface FormProps {
 
 const Form: React.FC<FormProps> = ({ getRecipes }) => {
     // inputの値を初期化しておく
-    const [inputValue, setInputValue] = useState('');
+    let [inputValue, setInputValue] = useState('');
     // 入力値が更新されるごとに取得
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setInputValue(event.target.value);
@@ -18,6 +18,8 @@ const Form: React.FC<FormProps> = ({ getRecipes }) => {
     const handleSubmit = (event: React.FormEvent) => {
         event.preventDefault();
         getRecipes(inputValue); // 入力された値を渡す
+        // 入力値を渡した後にinputの値を初期化する
+        setInputValue('')
     };
 
     return (

@@ -6,42 +6,58 @@ interface Recipe {
 }
 
 interface ResultsProps {
-    resultsRecipes: Recipe | null;
+    resultsRecipes: Recipe[] | null;
 }
 
 const Results: React.FC<ResultsProps> = ({ resultsRecipes }) => {
-  return (
+return (
     <div className="results-container">
-      {resultsRecipes ? (
+      {resultsRecipes && resultsRecipes.length > 0 ? (
         <div className="results-content">
-            <div className="recipes-title">
-                <h2>{resultsRecipes.title}</h2>
-            </div>
-            <div className="recipes-img">
-                <img src={resultsRecipes.image} alt={resultsRecipes.title} />
-            </div>
-            <div className="recipes-instructions">
-                <h2 className="recipes-instructions-title">
-                    {resultsRecipes.title}の作り方
-                </h2>
-                <p
-                    className="recipes-detail"
-                    dangerouslySetInnerHTML={{ __html: resultsRecipes.instructions }}></p>
-            </div>
-            <div className="recipes-summary">
-                <h2 className="recipes-summary-title">
-                    まとめ
-                </h2>
-                <p
-                    className="recipes-summary-detail"
-                    dangerouslySetInnerHTML={{ __html: resultsRecipes.summary }}></p>
-            </div>
+            {resultsRecipes.map((recipe, index) => (
+                <div key={index} className="results-all-contents">
+                    {/* タイトルエリア */}
+                    <div className="recipes-title">
+                        <h2>{recipe.title}</h2>
+                    </div>
+                    {/* 画像エリア */}
+                    <div className="recipes-img">
+                        <img src={recipe.image} alt={recipe.title} />
+                    </div>
+                    {/* レシピの作り方エリア
+                    {recipe.instructions && (
+                        <div className="recipes-instructions">
+                            <h2 className="recipes-instructions-title">
+                                {recipe.title}の作り方
+                            </h2>
+                            <p
+                                className="recipes-detail"
+                                dangerouslySetInnerHTML={{ __html: recipe.instructions }}>
+                            </p>
+                        </div>
+                    )}
+                    レシピのまとめエリア
+                    {recipe.summary && (
+                        <div className="recipes-summary">
+                            <h2 className="recipes-summary-title">まとめ</h2>
+                            <p
+                                className="recipes-summary-detail"
+                                dangerouslySetInnerHTML={{ __html: recipe.summary }}>
+                            </p>
+                        </div>
+                    )} */}
+                </div>
+            ))}
         </div>
-      ) : (
-        <p></p>
+        ) : (
+            <div className="recipe-not-found">
+                {resultsRecipes && (
+                    <p className="recipe-not-found">検索されたレシピが見つかりません...</p>
+                )}
+            </div>
+
       )}
     </div>
-  );
+);
 };
-
 export default Results;
