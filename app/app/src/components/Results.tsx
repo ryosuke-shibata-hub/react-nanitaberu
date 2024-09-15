@@ -3,6 +3,7 @@ interface Recipe {
     image: string;
     instructions: string;
     summary: string;
+    id: string;
 }
 
 interface ResultsProps {
@@ -16,6 +17,7 @@ return (
         <div className="results-content">
             {resultsRecipes.map((recipe, index) => (
                 <div key={index} className="results-all-contents">
+                    <a href={recipe.id} className="recipes-id">
                     {/* タイトルエリア */}
                     <div className="recipes-title">
                         <h2>{recipe.title}</h2>
@@ -46,6 +48,7 @@ return (
                             </p>
                         </div>
                     )} */}
+                        </a>
                 </div>
             ))}
         </div>

@@ -184,3 +184,11 @@ img {
     width: 100%;
     text-align: center;
 }
+a.recipes-id {
+    text-decoration: none;
+    color: #000;
+}
+a.recipes-id:hover {
+    color: #696969;
+    text-decoration: underline;
+}

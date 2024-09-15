@@ -5,6 +5,7 @@ import './components/Title';
 import Title from './components/Title';
 import Form from "./components/Form";
 import Results from "./components/Results";
+import ResultsRecipeDetail from "./components/ResultsRecipeDetail";
 
 interface Recipe {
     id: string;
@@ -72,6 +73,9 @@ function App() {
             />
             <Results
                 resultsRecipes={resultsRecipes}
+            />
+            <ResultsRecipeDetail
+
             />
         </div>
     </div>
