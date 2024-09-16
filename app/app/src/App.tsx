@@ -59,11 +59,12 @@ function App() {
             )
             setResultsRecipes(translatedRecipes);
         } catch (error) {
-            console.log('====================================');
-            console.log(error);
-            console.log('====================================');
+                    console.log('====================================');
+                    console.log('APIエラー:',error);
+                    console.log('====================================');
         }
     }
+
     return (
     <div className='wrapper'>
           <div className='container'>
@@ -74,9 +75,7 @@ function App() {
             <Results
                 resultsRecipes={resultsRecipes}
             />
-            <ResultsRecipeDetail
-
-            />
+            <ResultsRecipeDetail />
         </div>
     </div>
   );
