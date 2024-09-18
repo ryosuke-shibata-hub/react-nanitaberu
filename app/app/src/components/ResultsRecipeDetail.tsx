@@ -4,12 +4,22 @@ import axios from 'axios';
 
 const ResultsRecipeDetail: React.FC = () => {
 
+    // 対象のレシピIDパラメータ
     const { id } = useParams<{ id: string }>();
+    //レシピ情報の格納用ステート
     const [recipeDetail, setRecipeDetail] = useState<any>(null);
+    // ローディング状態の管理ステート
+    const [loading, setLoading] = useState<boolean>(true)
+    // エラーメッセージの管理ステート
+    const [error, setError] = useState<string | null>(null)
 
     useEffect(() => {
         if (id) {
             const fetchRecipeDetail = async () => {
+
+                setLoading(true)
+                setError(null)
+
                 try {
                     const spoonacularApiKey = process.env.REACT_APP_SPOONACULAR_API_KEY;
                     const deeplApiky = process.env.REACT_APP_DEEPL_API_KEY;
@@ -43,6 +53,8 @@ const ResultsRecipeDetail: React.FC = () => {
                     console.log('====================================');
                     console.log('APIエラー:',error);
                     console.log('====================================');
+                } finally {
+                    setLoading(false)
                 }
             };
             fetchRecipeDetail();
@@ -51,16 +63,37 @@ const ResultsRecipeDetail: React.FC = () => {
 
     return (
         <div className="">
-            {recipeDetail ? (
-                <div>
-                    <p>{recipeDetail.title}</p>
-                </div>
+            {loading ? (
+                <p className="text-center">読み込み中・・・</p>
+            ) : error ? (
+                <p>{error}</p>
+                ) : recipeDetail ? (
+                    <div className="results-recipe-detail-content">
+             <div className="recipes-title">
+                 <h2>{recipeDetail.title}</h2>
+             </div>
+             <div className="recipes-img">
+                 <img src={recipeDetail.image} alt={recipeDetail.title} />
+             </div>
+             <div className="recipes-instructions">
+                 <h2 className="recipes-instructions-title">
+                     {recipeDetail.title}の作り方
+                 </h2>
+                 <p
+                     className="recipes-detail"
+                     dangerouslySetInnerHTML={{ __html: recipeDetail.instructions }}></p>
+             </div>
+             <div className="recipes-summary">
+                 <h2 className="recipes-summary-title">
+                     まとめ
+                 </h2>
+                 <p
+                     className="recipes-summary-detail"
+                     dangerouslySetInnerHTML={{ __html: recipeDetail.summary }}></p>
+             </div>
+                    </div>
             ) : (
-                    <div>
-                        <p>
-                            読み込み中
-                        </p>
-                </div>
+                <p>レシピが見つかりませんでした</p>
             )}
         </div>
     )

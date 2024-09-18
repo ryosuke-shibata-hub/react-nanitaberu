@@ -6,6 +6,8 @@ import Title from './components/Title';
 import Form from "./components/Form";
 import Results from "./components/Results";
 import ResultsRecipeDetail from "./components/ResultsRecipeDetail";
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import NotFound from "./components/NotFound";
 
 interface Recipe {
     id: string;
@@ -66,18 +68,22 @@ function App() {
     }
 
     return (
-    <div className='wrapper'>
-          <div className='container'>
-            <Title />
-            <Form
-                getRecipes={getRecipes}
-            />
-            <Results
-                resultsRecipes={resultsRecipes}
-            />
-            <ResultsRecipeDetail />
-        </div>
-    </div>
+        <BrowserRouter>
+            <div className='wrapper'>
+                <div className='container'>
+                    <Title />
+                    <Form
+                        getRecipes={getRecipes}
+                    />
+                    <Routes>
+                        <Route path="/" element={<Results resultsRecipes={resultsRecipes} />} />
+                        <Route path="/recipes/detail/:id" element={<ResultsRecipeDetail />} />
+                        <Route path="*" element={<NotFound />} />
+                    </Routes>
+
+                </div>
+            </div>
+        </BrowserRouter>
   );
 }
 
