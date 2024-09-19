@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './App.css';
 import './components/Title';
@@ -6,7 +6,7 @@ import Title from './components/Title';
 import Form from "./components/Form";
 import Results from "./components/Results";
 import ResultsRecipeDetail from "./components/ResultsRecipeDetail";
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import NotFound from "./components/NotFound";
 
 interface Recipe {
@@ -17,9 +17,10 @@ interface Recipe {
     summary: string;
 }
 
-function App() {
+function MainApp() {
 
     const [resultsRecipes, setResultsRecipes] = useState<Recipe[] | null>(null);
+    const location = useLocation();
 
     async function getRecipes(searchWord: string) {
         try {
@@ -28,15 +29,32 @@ function App() {
             const getNumberCount = process.env.REACT_APP_GET_RECIPES_COUNT;
             let respiResult;
 
-        if (searchWord) {
-            // 検索ワードがある場合、検索APIを使用
-            respiResult = await axios.get(`https://api.spoonacular.com/recipes/complexSearch?number=${getNumberCount}&apiKey=${spoonacularApiKey}&query=${searchWord}`);
-        } else {
-            // 検索ワードがない場合、ランダムAPIを使用
-            respiResult = await axios.get(`https://api.spoonacular.com/recipes/random?number=${getNumberCount}&apiKey=${spoonacularApiKey}`);
-        }
-        //検索値のある・なしによって変数を分ける
-        const recipe = searchWord ? respiResult.data.results : respiResult.data.recipes;
+            // 入力されたキーワードを英語に翻訳する
+            const translateToEnglish = async (text: string) => {
+            const response = await axios.post('https://api-free.deepl.com/v2/translate', null, {
+                params: {
+                    auth_key: deeplApiky,
+                    text: text,
+                    target_lang: 'EN',
+                }
+            });
+            return response.data.translations[0].text;
+            }
+
+            let translatedSearchWord = searchWord;
+            if (searchWord) {
+                translatedSearchWord = await translateToEnglish(searchWord);
+            }
+
+            if (translatedSearchWord) {
+                // 検索ワードがある場合、検索APIを使用
+                respiResult = await axios.get(`https://api.spoonacular.com/recipes/complexSearch?number=${getNumberCount}&apiKey=${spoonacularApiKey}&query=${translatedSearchWord}`);
+            } else {
+                // 検索ワードがない場合、ランダムAPIを使用
+                respiResult = await axios.get(`https://api.spoonacular.com/recipes/random?number=${getNumberCount}&apiKey=${spoonacularApiKey}`);
+            }
+            //検索値のある・なしによって変数を分ける
+            const recipe = translatedSearchWord ? respiResult.data.results : respiResult.data.recipes;
             const translateText = async (text: string) => {
                 const response = await axios.post('https://api-free.deepl.com/v2/translate', null, {
                     params: {
@@ -66,9 +84,13 @@ function App() {
                     console.log('====================================');
         }
     }
+    useEffect(() => {
+        if (location.state && location.state.fetchGetRecipes) {
+            getRecipes('');
+        }
+    }, [location.state]);
 
     return (
-        <BrowserRouter>
             <div className='wrapper'>
                 <div className='container'>
                     <Title />
@@ -83,8 +105,15 @@ function App() {
 
                 </div>
             </div>
-        </BrowserRouter>
   );
+}
+
+function App() {
+    return (
+        <BrowserRouter>
+            <MainApp />
+        </BrowserRouter>
+    )
 }
 
 export default App;

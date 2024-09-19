@@ -211,3 +211,16 @@ a.recipes-id:hover {
 .result-recipe-title {
     text-align: center;
 }
+.back-btn-container {
+    text-align: center;
+}
+.back-btn {
+  background-color: #f5deb3;
+  border-radius: 100vh;
+  padding: 5px 15px;
+  font-weight: bold;
+}
+.back-btn:hover {
+  color: #fff;
+  opacity: 1.6;
+}

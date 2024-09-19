@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from 'react-router-dom';
 
 interface FormProps {
     getRecipes: (searchWord: string) => void;
@@ -10,6 +11,7 @@ interface FormProps {
 const Form: React.FC<FormProps> = ({ getRecipes }) => {
     // inputの値を初期化しておく
     let [inputValue, setInputValue] = useState('');
+    const navigate = useNavigate();
     // 入力値が更新されるごとに取得
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setInputValue(event.target.value);
@@ -18,6 +20,8 @@ const Form: React.FC<FormProps> = ({ getRecipes }) => {
     const handleSubmit = (event: React.FormEvent) => {
         event.preventDefault();
         getRecipes(inputValue); // 入力された値を渡す
+
+        navigate("/", { state: { fetchGetRecipes: inputValue === '' } });
         // 入力値を渡した後にinputの値を初期化する
         setInputValue('')
     };

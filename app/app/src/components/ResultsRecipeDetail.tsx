@@ -1,8 +1,15 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import axios from 'axios';
 
 const ResultsRecipeDetail: React.FC = () => {
+
+    const navigateUrl = useNavigate();
+
+    const backToTopPage = () => {
+        navigateUrl('/')
+    }
 
     // 対象のレシピIDパラメータ
     const { id } = useParams<{ id: string }>();
@@ -67,33 +74,47 @@ const ResultsRecipeDetail: React.FC = () => {
                 <p className="text-center">読み込み中・・・</p>
             ) : error ? (
                 <p>{error}</p>
-                ) : recipeDetail ? (
+            ) : recipeDetail ? (
+                <div className="">
                     <div className="results-recipe-detail-content">
-             <div className="recipes-title">
-                 <h2>{recipeDetail.title}</h2>
-             </div>
-             <div className="recipes-img">
-                 <img src={recipeDetail.image} alt={recipeDetail.title} />
-             </div>
-             <div className="recipes-instructions">
-                 <h2 className="recipes-instructions-title">
-                     {recipeDetail.title}の作り方
-                 </h2>
-                 <p
-                     className="recipes-detail"
-                     dangerouslySetInnerHTML={{ __html: recipeDetail.instructions }}></p>
-             </div>
-             <div className="recipes-summary">
-                 <h2 className="recipes-summary-title">
-                     まとめ
-                 </h2>
-                 <p
-                     className="recipes-summary-detail"
-                     dangerouslySetInnerHTML={{ __html: recipeDetail.summary }}></p>
-             </div>
+                        <div className="recipes-title">
+                            <h2>{recipeDetail.title}</h2>
+                        </div>
+                        <div className="recipes-img">
+                            <img src={recipeDetail.image} alt={recipeDetail.title} />
+                        </div>
+                        <div className="recipes-instructions">
+                            <h2 className="recipes-instructions-title">
+                                {recipeDetail.title}の作り方
+                            </h2>
+                            <p
+                                className="recipes-detail"
+                                dangerouslySetInnerHTML={{ __html: recipeDetail.instructions }}></p>
+                        </div>
+                        <div className="recipes-summary">
+                            <h2 className="recipes-summary-title">
+                                まとめ
+                            </h2>
+                            <p
+                                className="recipes-summary-detail"
+                                dangerouslySetInnerHTML={{ __html: recipeDetail.summary }}></p>
+                        </div>
                     </div>
+                    <div className="back-btn-container">
+                        <button type="button" className="back-btn" onClick={() => backToTopPage()}>
+                            もどる
+                        </button>
+                    </div>
+                </div>
             ) : (
-                <p>レシピが見つかりませんでした</p>
+                <div className="">
+                    <p>レシピが見つかりませんでした</p>
+                    <div className="">
+                        <button type="button" className="back-btn" onClick={() => backToTopPage()}>
+                            もどる
+                        </button>
+                    </div>
+                </div>
             )}
         </div>
     )
