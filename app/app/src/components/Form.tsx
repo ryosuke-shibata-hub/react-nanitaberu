@@ -48,7 +48,7 @@ const Form: React.FC<FormProps> = ({ getRecipes }) => {
                         name="cook-keywords"
                         value={inputValue}
                         onChange={handleInputChange}
-                        placeholder="カレー・韓国料理・魚など" />
+                        placeholder="カレー・韓国料理・魚料理など" />
                     <button className="keyword-btn" type="submit" name="keywords-btn">
                         <FontAwesomeIcon icon={faMagnifyingGlass} />
                     </button>
