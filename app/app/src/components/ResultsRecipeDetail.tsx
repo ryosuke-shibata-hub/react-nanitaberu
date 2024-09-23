@@ -36,7 +36,7 @@ const ResultsRecipeDetail: React.FC = () => {
                     respiResult = await axios.get(`https://api.spoonacular.com/recipes/${id}/information?apiKey=${spoonacularApiKey}`);
                     const recipe = respiResult.data;
                     const translateText = async (text: string) => {
-                        const response = await axios.post('https://api-free.deepl.com/v2/translate', null, {
+                        const response = await axios.post('https://api.deepl.com/v2/translate', null, {
                             params: {
                                 auth_key: deeplApiky,
                                 text: text,
@@ -107,9 +107,9 @@ const ResultsRecipeDetail: React.FC = () => {
                     </div>
                 </div>
             ) : (
-                <div className="">
+                <div className="back-btn-container">
                     <p>レシピが見つかりませんでした</p>
-                    <div className="">
+                    <div className="back-btn-container">
                         <button type="button" className="back-btn" onClick={() => backToTopPage()}>
                             もどる
                         </button>
