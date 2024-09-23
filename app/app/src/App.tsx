@@ -31,7 +31,7 @@ function MainApp() {
 
             // 入力されたキーワードを英語に翻訳する
             const translateToEnglish = async (text: string) => {
-            const response = await axios.post('https://api-free.deepl.com/v2/translate', null, {
+            const response = await axios.post('https://api.deepl.com/v2/translate', null, {
                 params: {
                     auth_key: deeplApiky,
                     text: text,
@@ -56,7 +56,7 @@ function MainApp() {
             //検索値のある・なしによって変数を分ける
             const recipe = translatedSearchWord ? respiResult.data.results : respiResult.data.recipes;
             const translateText = async (text: string) => {
-                const response = await axios.post('https://api-free.deepl.com/v2/translate', null, {
+                const response = await axios.post('https://api.deepl.com/v2/translate', null, {
                     params: {
                         auth_key: deeplApiky,
                         text: text,
