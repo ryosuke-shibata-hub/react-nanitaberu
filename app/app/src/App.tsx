@@ -15,19 +15,26 @@ interface Recipe {
     image: string;
     instructions: string;
     summary: string;
+    error: string;
 }
 
 function MainApp() {
 
     const [resultsRecipes, setResultsRecipes] = useState<Recipe[] | null>(null);
     const location = useLocation();
+    // エラーメッセージの管理ステート
+    const [error, setError] = useState<string | null>(null)
 
     async function getRecipes(searchWord: string) {
         try {
+
+            setError(null)
+
             const spoonacularApiKey = process.env.REACT_APP_SPOONACULAR_API_KEY;
             const deeplApiky = process.env.REACT_APP_DEEPL_API_KEY;
             const getNumberCount = process.env.REACT_APP_GET_RECIPES_COUNT;
             let respiResult;
+
 
             // 入力されたキーワードを英語に翻訳する
             const translateToEnglish = async (text: string) => {
@@ -79,9 +86,10 @@ function MainApp() {
             )
             setResultsRecipes(translatedRecipes);
         } catch (error) {
-                    console.log('====================================');
-                    console.log('APIエラー:',error);
-                    console.log('====================================');
+            setError("レシピの取得に失敗しました。時間をおいてお試しください。")
+            console.log('====================================');
+            console.log('APIエラー:',error);
+            console.log('====================================');
         }
     }
     useEffect(() => {
@@ -96,13 +104,16 @@ function MainApp() {
                     <Title />
                     <Form
                         getRecipes={getRecipes}
-                    />
+                />
+                {error ? (
+                    <p className="text-center">{error}</p>
+                ): (
                     <Routes>
                         <Route path="/" element={<Results resultsRecipes={resultsRecipes} />} />
                         <Route path="/recipes/detail/:id" element={<ResultsRecipeDetail />} />
                         <Route path="*" element={<NotFound />} />
                     </Routes>
-
+                )}
                 </div>
             </div>
   );

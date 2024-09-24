@@ -21,6 +21,7 @@ const ResultsRecipeDetail: React.FC = () => {
     const [error, setError] = useState<string | null>(null)
 
     useEffect(() => {
+        let isMounted = true;
         if (id) {
             const fetchRecipeDetail = async () => {
 
@@ -30,11 +31,10 @@ const ResultsRecipeDetail: React.FC = () => {
                 try {
                     const spoonacularApiKey = process.env.REACT_APP_SPOONACULAR_API_KEY;
                     const deeplApiky = process.env.REACT_APP_DEEPL_API_KEY;
-                    let respiResult;
-
                     // レシピのIDを渡して情報を取得
-                    respiResult = await axios.get(`https://api.spoonacular.com/recipes/${id}/information?apiKey=${spoonacularApiKey}`);
+                    const respiResult = await axios.get(`https://api.spoonacular.com/recipes/${id}/information?apiKey=${spoonacularApiKey}`);
                     const recipe = respiResult.data;
+
                     const translateText = async (text: string) => {
                         const response = await axios.post('https://api.deepl.com/v2/translate', null, {
                             params: {
@@ -46,26 +46,42 @@ const ResultsRecipeDetail: React.FC = () => {
                         return response.data.translations[0].text;
                     }
 
-                    const translatedTitle = await translateText(recipe.title);
-                    const translatedSummary = await translateText(recipe.summary);
-                    const translatedInstructions = await translateText(recipe.instructions);
+                    const [translatedTitle, translatedSummary, translatedInstructions] = await Promise.all([
+                        translateText(recipe.title),
+                        translateText(recipe.summary),
+                        translateText(recipe.instructions),
+                    ])
 
-                    setRecipeDetail({
-                        title: translatedTitle,
-                        summary: translatedSummary,
-                        instructions: translatedInstructions,
-                        image: recipe.image
-                    });
+                    if (isMounted) {
+                        setRecipeDetail({
+                            title: translatedTitle,
+                            summary: translatedSummary,
+                            instructions: translatedInstructions,
+                            image: recipe.image
+                        });
+                    }
+
                 } catch (error) {
+                    if (isMounted) {
+                        setError("レシピの取得に失敗しました。時間をおいてお試しください。")
+                    }
+                    setError("レシピの取得に失敗しました。時間をおいてお試しください。")
                     console.log('====================================');
                     console.log('APIエラー:',error);
                     console.log('====================================');
+
                 } finally {
-                    setLoading(false)
+                    if (isMounted) {
+                        setLoading(false)
+                    }
                 }
             };
             fetchRecipeDetail();
         }
+
+        return () => {
+            isMounted = false;
+        };
     }, [id]);
 
     return (
@@ -73,7 +89,7 @@ const ResultsRecipeDetail: React.FC = () => {
             {loading ? (
                 <p className="text-center">読み込み中・・・</p>
             ) : error ? (
-                <p>{error}</p>
+                <p className="text-center">{error}</p>
             ) : recipeDetail ? (
                 <div className="">
                     <div className="results-recipe-detail-content">
